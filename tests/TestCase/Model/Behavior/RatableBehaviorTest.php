@@ -95,7 +95,7 @@ class RatableBehaviorTest extends TestCase {
 		$rating = $this->Articles->Ratings->newEntity($data);
 		$this->Articles->Ratings->save($rating);
 		$result = $this->Articles->calculateRating(1);
-		$this->assertEquals('1.5', $result['rating']);
+		$this->assertEquals('1.75', $result['rating']);
 	}
 
 	/**
@@ -150,8 +150,8 @@ class RatableBehaviorTest extends TestCase {
 			'value' => 2.5000];
 		$rating = $this->Posts->Ratings->newEntity($data);
 		$this->Posts->Ratings->save($rating);
-		$result = $this->Posts->incrementRating(1, 2.5)->toArray();
-		$this->assertEquals($result['rating'], '1.75000000');
+		$result = $this->Posts->incrementRating(1, 2.5);
+		$this->assertEquals('2.0', $result['rating']);
 
 		//$this->expectException('InvalidArgumentException');
 		//$this->Posts->incrementRating(1, 1, true, 'pow');
@@ -196,12 +196,12 @@ class RatableBehaviorTest extends TestCase {
 		$this->Posts->Ratings->save($rating);
 
 		$result = $this->Posts->incrementRating(1, 2.5);
-		$this->assertEquals('1.75', $result['rating']);
-		$this->assertEquals('3.5', $result['rating_sum']);
+		$this->assertEquals('2.0', $result['rating']);
+		$this->assertEquals('4.0', $result['rating_sum']);
 
 		$result = $this->Posts->decrementRating(1, 2.5);
-		$this->assertEquals('0.5', $result['rating']);
-		$this->assertEquals('0.5', $result['rating_sum']);
+		$this->assertEquals('1.0', $result['rating']);
+		$this->assertEquals('1.0', $result['rating_sum']);
 	}
 
 	/**
